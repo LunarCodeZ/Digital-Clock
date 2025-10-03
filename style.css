@@ -1,5 +1,7 @@
 :root {
     --clock-display-size: 80px;
+    --input-display-size: 79px;
+    --timer-input-margin: 40px;
 }
 
 body {
@@ -126,4 +128,32 @@ h1 {
 /* Useless */
 .completed {
     color: lime;
+}
+
+.progress {
+    color: yellow;
+}
+
+.input {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-left: var(--timer-input-margin);
+    margin-right: var(--timer-input-margin);
+    position: relative;
+    bottom: 460px;
+}
+
+.input-time {
+    width: var(--input-display-size);
+    height: var(--input-display-size);
+    background-color: rgb(30, 30, 30);
+    border-radius: 15%;
+    border: 2px solid rgb(63, 63, 63);
+    color: white;
+    text-align: center;
+    font-size: 52px;
+    font-weight: bold;
+    font-family: cursive;
 }

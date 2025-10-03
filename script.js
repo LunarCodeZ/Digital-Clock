@@ -12,6 +12,15 @@ var getDay;
 var dayExplanation;
 var getFullDate;
 
+var myLang = navigator.language;
+
+if (myLang == "id") {
+    document.getElementById("title").innerHTML = "Jam Digital";
+    document.getElementById("clock-button").innerHTML = "Jam";
+    document.getElementById("timer-button").innerHTML = "Pengatur Waktu";
+    document.getElementById("alarm-button").innerHTML = "Alarm";
+}
+
 document.getElementById("hours").innerHTML = clock.getHours();
 document.getElementById("minutes").innerHTML = clock.getMinutes();
 document.getElementById("seconds").innerHTML = clock.getSeconds();
@@ -27,30 +36,34 @@ function resetClock() {
     getMinutes = clock.getMinutes();
     getSeconds = clock.getSeconds();
 
-    if (getHours < 10) {
-        document.getElementById("hours").innerHTML = "0" + getHours;
-    } else {
-        document.getElementById("hours").innerHTML = getHours;
-    }
+    if (currentButton[0] == "clock") {
 
-    if (getMinutes < 10) {
-        document.getElementById("minutes").innerHTML = "0" + getMinutes;
-    } else {
-        document.getElementById("minutes").innerHTML = getMinutes;
-    }
- 
-    if (getSeconds < 10) {
-        document.getElementById("seconds").innerHTML = "0" + getSeconds;
-    } else {
-        document.getElementById("seconds").innerHTML = getSeconds;
-    }
+        if (getHours < 10) {
+            document.getElementById("hours").innerHTML = "0" + getHours;
+        } else {
+            document.getElementById("hours").innerHTML = getHours;
+        }
 
-    if (getSeconds % 2 == 0) {
-        document.getElementById("clock-colon1").style.opacity = "100%";
-        document.getElementById("clock-colon2").style.opacity = "100%";
-    } else {
-        document.getElementById("clock-colon1").style.opacity = "0%";
-        document.getElementById("clock-colon2").style.opacity = "0%";
+        if (getMinutes < 10) {
+            document.getElementById("minutes").innerHTML = "0" + getMinutes;
+        } else {
+            document.getElementById("minutes").innerHTML = getMinutes;
+        }
+    
+        if (getSeconds < 10) {
+            document.getElementById("seconds").innerHTML = "0" + getSeconds;
+        } else {
+            document.getElementById("seconds").innerHTML = getSeconds;
+        }
+
+
+        if (getSeconds % 2 == 0) {
+            document.getElementById("clock-colon1").style.opacity = "100%";
+            document.getElementById("clock-colon2").style.opacity = "100%";
+        } else {
+            document.getElementById("clock-colon1").style.opacity = "0%";
+            document.getElementById("clock-colon2").style.opacity = "0%";
+        }
     }
 }
 
@@ -63,7 +76,11 @@ function resetDate() {
 
     switch (getDay) {
         case 1:
-            dayExplanation = "Monday";
+            if (myLang == "id") {
+                dayExplanation = "Senin";
+            } else {
+                dayExplanation = "Monday";
+            }
             break;
 
         case 2:
@@ -79,7 +96,11 @@ function resetDate() {
             break;
 
         case 5:
-            dayExplanation = "Friday";
+            if (myLang == "id") {
+                dayExplanation = "Jumat";
+            } else {
+                dayExplanation = "Friday";
+            }
             break;
 
         case 6:
@@ -91,7 +112,11 @@ function resetDate() {
             break;
     }
 
-    getFullDate = dayExplanation + "," + getDate + "/" + getMonth + "/" + getYear;
+    if (myLang == "id") {
+        getFullDate = dayExplanation + " / " + getDate + "-" + getMonth + "-" + getYear;
+    } else {
+        getFullDate = dayExplanation + "," + getDate + "/" + getMonth + "/" + getYear;
+    }
     document.getElementById("dates").innerHTML = getFullDate;
 }
 
@@ -115,6 +140,17 @@ let getAlarmButton = document.getElementById("alarm-btn").style;
 let getStopwatchButton = document.getElementById("stopwatch-btn").style;
 
 function resetButtonVisibility() {
+
+    if (currentButton[0] == "alarm" || currentButton[0] == "timer") {
+        document.getElementById("time-1").style.display = "inline";
+        document.getElementById("time-2").style.display = "inline";
+        document.getElementById("time-3").style.display = "inline";
+    } else {
+        document.getElementById("time-1").style.display = "none";
+        document.getElementById("time-2").style.display = "none";
+        document.getElementById("time-3").style.display = "none";
+    }
+
     switch (currentButton[0]) {
         case "clock":
             getClockButton.backgroundColor = buttonActive;
@@ -219,9 +255,22 @@ function buttonHoverUnanimated(buttonParam) {
 
 
 // Timer Mode
+function enterTimerMode() {
+
+}
+
 // Alarm Mode
 // Stopwatch Mode
 
+
+
+// Submit Form (Debug)
+function submit() {
+    document.getElementById("output1").innerHTML = document.getElementById("timeform").value;
+    document.getElementById("output2").innerHTML = document.getElementById("dateform").value;
+    document.getElementById("output3").innerHTML = document.getElementById("datetimeform").value;
+    document.getElementById("output4").innerHTML = document.getElementById("datetimelocalform").value;
+}
 
 
 
