@@ -11,6 +11,10 @@ h1 {
     text-align: center;
 }
 
+#title {
+    color: white;
+}
+
 .clock-container {
     margin: auto;
     border-radius: 5%;

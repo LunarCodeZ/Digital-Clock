@@ -125,6 +125,7 @@ function resetButtonVisibility() {
             getAlarmButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
+            enterClockMode();
             break;
         
         case "timer":
@@ -136,6 +137,7 @@ function resetButtonVisibility() {
             getAlarmButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
+            enterTimerMode();
             break;
 
         case "alarm":
@@ -147,6 +149,7 @@ function resetButtonVisibility() {
             getClockButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
+            enterAlarmMode();
             break;
 
         case "stopwatch":
@@ -158,6 +161,7 @@ function resetButtonVisibility() {
             getTimerButton.border = buttonInactiveBorder;
             getClockButton.backgroundColor = buttonInactive;
             getClockButton.border = buttonInactiveBorder;
+            enterStopwatchMode();
             break;
 
         default:
