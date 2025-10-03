@@ -1,0 +1,125 @@
+:root {
+    --clock-display-size: 80px;
+}
+
+body {
+    background-color: rgb(42, 42, 42);
+    font-family: cursive;
+}
+
+h1 {
+    text-align: center;
+}
+
+.clock-container {
+    margin: auto;
+    border-radius: 5%;
+    border: 5px solid rgb(0, 0, 0);
+    background-image: linear-gradient(to bottom right, rgb(45, 45, 45), black);
+    width: 490px;
+    height: 320px;
+    position: relative;
+}
+
+.clock-menus {
+    position: relative;
+    bottom: 30px;
+}
+
+.clock {
+    display: flex;
+    flex-direction: row;
+    padding: 60px 40px 40px 40px;
+}
+
+.clock > .clock-display {
+    margin: auto;
+    background-color: rgb(30, 30, 30);
+    border-radius: 15%;
+    border: 2px solid rgb(63, 63, 63);
+    height: var(--clock-display-size);
+    width: var(--clock-display-size);
+}
+
+.clock-display > h2 {
+    font-size: 55px;
+    color: white;
+    text-align: center;
+    position: relative;
+    bottom: 45px;
+}
+
+.clock-decor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 45px;
+    color: rgb(224, 224, 224);
+    text-align: center;
+    padding: 0px 100px;
+    position: relative;
+    bottom: 190px;
+}
+
+.display-date > h2 {
+    color: black;
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+    position: relative;
+    bottom: 3px;
+}
+
+.display-date {
+    width: 85%;
+    height: 30px;
+    background-color: cornsilk;
+    margin: auto;
+    position: relative;
+    top: 15px;
+    border: 2px solid rgb(105, 105, 105);
+    border-radius: 5%;
+}
+
+
+
+/* Clock Buttons */
+
+.buttons {
+    position: relative;
+    display: grid;
+    grid: 1fr / 1fr 1fr;
+    justify-content: space-between;
+    bottom: 230px;
+    margin-right: 50px;
+    margin-left: 70px;
+}
+
+.buttons > .clock-button {
+    background-color: rgb(76, 76, 76);
+    width: 160px;
+    height: 50px;
+    border: 2px solid rgb(200, 200, 200);
+    border-radius: 8%;
+    margin: 10px 0 0px 0;
+    transition: 0.5s;
+}
+
+.button-desc {
+    font-size: 20px;
+    font-family: monospace;
+    color: rgb(0, 0, 0);
+    position: relative;
+    bottom: 7px;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+
+
+
+/* Useless */
+.completed {
+    color: lime;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Clock sample to be used on websites">
+    <title>Clock Sample</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 id="title">Digital Clock</h1>
+    <hr><br>
+
+    <div class="clock-container">
+        <div class="display-date">
+            <h2 id="dates"></h2>
+        </div>
+        <div class="clock-menus">
+            <div class="clock">
+                <div class="clock-display">
+                    <h2 id="hours">24</h2>
+                </div>
+                <div class="clock-display">
+                    <h2 id="minutes">60</h2>
+                </div>
+                <div class="clock-display" >
+                    <h2 id="seconds">60</h2>
+                </div>
+            </div>
+
+            <div class="clock-decor">
+                <h2 id="clock-colon1">:</h2>
+                <h2 id="clock-colon2">:</h2>
+            </div>
+
+            <div class="buttons">
+                <div class="clock-button" id="clock-btn" onclick="toggleClockMode()" onmouseenter="buttonHoverAnimation('clock-btn')" onmouseleave="buttonHoverUnanimated()">
+                    <p class="button-desc">Clock Mode</p>
+                </div>
+                <div class="clock-button" id="timer-btn" onclick="toggleTimerMode()" onmouseenter="buttonHoverAnimation('timer-btn')" onmouseleave="buttonHoverUnanimated()">
+                    <p class="button-desc">Timer Mode</p>
+                </div>
+                <div class="clock-button" id="alarm-btn" onclick="toggleAlarmMode()" onmouseenter="buttonHoverAnimation('alarm-btn')" onmouseleave="buttonHoverUnanimated()">
+                    <p class="button-desc">Alarm Mode</p>
+                </div>
+                <div class="clock-button" id="stopwatch-btn" onclick="toggleStopwatchMode()" onmouseenter="buttonHoverAnimation('stopwatch-btn')" onmouseleave="buttonHoverUnanimated()">
+                    <p class="button-desc">Stopwatch</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Mode:</h3>
+    <ul>
+        <li class="completed">Clock</li>
+        <li>Timer</li>
+        <li>Alarm</li>
+        <li>Stopwatch</li>
+    </ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
