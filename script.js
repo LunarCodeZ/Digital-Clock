@@ -1,5 +1,6 @@
 var debugText = document.getElementById("title").innerHTML;
 
+// === Variables for displaying time ===
 var clock = new Date();
 var getSeconds;
 var getMinutes;
@@ -11,7 +12,10 @@ var getDate;
 var getDay;
 var dayExplanation;
 var getFullDate;
+// ===
 
+
+// Detect language used
 var myLang = navigator.language;
 
 if (myLang == "id") {
@@ -74,6 +78,13 @@ function resetDate() {
     getDate = clock.getDate();
     getDay = clock.getDay();
 
+    if (getMonth < 10) {
+        getMonth = "0" + getMonth;
+    }
+    if (getDate < 10) {
+        getDate = "0" + getDate;
+    }
+
     switch (getDay) {
         case 1:
             if (myLang == "id") {
@@ -84,15 +95,27 @@ function resetDate() {
             break;
 
         case 2:
-            dayExplanation = "Tuesday";
+            if (myLang == "id") {
+                dayExplanation = "Selasa";
+            } else {
+                dayExplanation = "Tuesday";
+            }
             break;
 
         case 3:
-            dayExplanation = "Wednesday";
+            if (myLang == "id") {
+                dayExplanation = "Rabu";
+            } else {
+                dayExplanation = "Wednesday";
+            }
             break;
 
         case 4:
-            dayExplanation = "Thursday";
+            if (myLang == "id") {
+                dayExplanation = "Kamis";
+            } else {
+                dayExplanation = "Thursday";
+            }
             break;
 
         case 5:
@@ -104,19 +127,28 @@ function resetDate() {
             break;
 
         case 6:
-            dayExplanation = "Saturday";
+            if (myLang == "id") {
+                dayExplanation = "Sabtu";
+            } else {
+                dayExplanation = "Saturday";
+            }
             break;
     
         default:
-            dayExplanation = "Sunday";
+            if (myLang == "id") {
+                dayExplanation = "Minggu";
+            } else {
+                dayExplanation = "Sunday";
+            }
             break;
     }
 
     if (myLang == "id") {
-        getFullDate = dayExplanation + " / " + getDate + "-" + getMonth + "-" + getYear;
+        getFullDate = dayExplanation + " / " + getMonth + "-" + getDate + "-" + getYear;
     } else {
         getFullDate = dayExplanation + "," + getDate + "/" + getMonth + "/" + getYear;
     }
+    
     document.getElementById("dates").innerHTML = getFullDate;
 }
 
@@ -133,6 +165,7 @@ const buttonInactiveBorder = "2px solid rgb(200, 200, 200)";
 const buttonStop = "orange";
 
 var currentButton = ["clock"];
+var currentState = "";
 
 let getClockButton = document.getElementById("clock-btn").style;
 let getTimerButton = document.getElementById("timer-btn").style;
@@ -141,14 +174,31 @@ let getStopwatchButton = document.getElementById("stopwatch-btn").style;
 
 function resetButtonVisibility() {
 
-    if (currentButton[0] == "alarm" || currentButton[0] == "timer") {
-        document.getElementById("time-1").style.display = "inline";
-        document.getElementById("time-2").style.display = "inline";
-        document.getElementById("time-3").style.display = "inline";
+    if (currentButton[0] == "timer") {
+        switch (currentState) {
+            case "start timer":
+                hideInput();
+                document.getElementById("dates").innerHTML = "Timer is running...";
+                getTimerHours = document.getElementById("time-1").value;
+                getTimerMins = document.getElementById("time-2").value;
+                getTimerSecs = document.getElementById("time-3").value;
+                // document.getElementById("output1").innerHTML = getTimerHours;
+                // document.getElementById("output2").innerHTML = getTimerMins;
+                // document.getElementById("output3").innerHTML = getTimerSecs;
+                break;
+        
+            default:
+                displayInput();
+                document.getElementById("dates").innerHTML = "Enter the time: ";
+                break;
+        }
+        myDate = clearInterval(myDate);
+        document.getElementById("hours").innerHTML = "";
+        document.getElementById("minutes").innerHTML = "";
+        document.getElementById("seconds").innerHTML = "";
     } else {
-        document.getElementById("time-1").style.display = "none";
-        document.getElementById("time-2").style.display = "none";
-        document.getElementById("time-3").style.display = "none";
+        hideInput();
+        resetDate();
     }
 
     switch (currentButton[0]) {
@@ -161,6 +211,7 @@ function resetButtonVisibility() {
             getAlarmButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
+            exitTimerMode();
             enterClockMode();
             break;
         
@@ -185,6 +236,7 @@ function resetButtonVisibility() {
             getClockButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
+            exitTimerMode();
             enterAlarmMode();
             break;
 
@@ -197,6 +249,7 @@ function resetButtonVisibility() {
             getTimerButton.border = buttonInactiveBorder;
             getClockButton.backgroundColor = buttonInactive;
             getClockButton.border = buttonInactiveBorder;
+            exitTimerMode();
             enterStopwatchMode();
             break;
 
@@ -220,12 +273,37 @@ function toggleClockMode() {
 function toggleTimerMode() {
     currentButton.pop();
     currentButton.push("timer");
+    switch (currentState) {
+        case "set timer":
+            currentState = "start timer";
+            console.log("Timer has been set");
+            break;
+
+        case "start timer":
+            document.getElementById("dates").innerHTML = "Timer is running...";
+            timerCountdown = setInterval(startTimer, 1000);
+            break;
+    
+        default:
+            currentState = "set timer";
+            break;
+    }
+    console.log(currentState);
     resetButtonVisibility();
 }
 
 function toggleAlarmMode() {
     currentButton.pop();
     currentButton.push("alarm");
+    switch (currentState) {
+        case "set alarm":
+            console.log("Alarm has been set");
+            break;
+    
+        default:
+            currentState = "set alarm";
+            break;
+    }
     resetButtonVisibility();
 }
 
@@ -235,12 +313,26 @@ function toggleStopwatchMode() {
     resetButtonVisibility();
 }
 
+// 
+
 
 
 // Button Hover Animation
 function buttonHoverAnimation(buttonParam) {
     if (buttonParam == currentButton[0] + "-btn") {
-        document.getElementById(buttonParam).style.backgroundColor = "red";
+        if (currentButton[0] == "clock") {
+            document.getElementById(buttonParam).style.backgroundColor = "red";
+        } else {
+            switch (currentState) {
+                case "set timer" || "set alarm":
+                    document.getElementById(buttonParam).style.backgroundColor = "lime";
+                    break;
+            
+                default:
+                    document.getElementById(buttonParam).style.backgroundColor = "orange";
+                    break;
+            }
+        }
     } else {
         document.getElementById(buttonParam).style.backgroundColor = "rgb(255, 255, 255)";
     }
@@ -255,9 +347,39 @@ function buttonHoverUnanimated(buttonParam) {
 
 
 // Timer Mode
+let timerCountdown = setInterval(startTimer,1000);
+var timerSecs, timerMins, timerHours;
+var getTimerSecs;
+var getTimerMins;
+var getTimerHours;
+
 function enterTimerMode() {
 
+    if (myLang == "id") {
+        document.getElementById("timer-button").innerHTML = "Mulai Waktu";
+    } else {
+        document.getElementById("timer-button").innerHTML = "Start Timer";
+    }
+
 }
+
+function exitTimerMode() {
+    currentState = "";
+    if (myLang == "id") {
+        document.getElementById("timer-button").innerHTML = "Pengatur Waktu";
+    } else {
+        document.getElementById("timer-button").innerHTML = "Timer Mode";
+    }
+
+}
+
+function startTimer() {
+    document.getElementById("hours").innerHTML = getTimerHours;
+    document.getElementById("minutes").innerHTML = getTimerMins;
+    document.getElementById("seconds").innerHTML = getTimerSecs;
+}
+
+function pauseTimer() {}
 
 // Alarm Mode
 // Stopwatch Mode
@@ -271,6 +393,22 @@ function submit() {
     document.getElementById("output3").innerHTML = document.getElementById("datetimeform").value;
     document.getElementById("output4").innerHTML = document.getElementById("datetimelocalform").value;
 }
+
+
+
+// Toggle Input
+function displayInput() {
+    document.getElementById("time-1").style.display = "inline";
+    document.getElementById("time-2").style.display = "inline";
+    document.getElementById("time-3").style.display = "inline";
+}
+
+function hideInput() {
+    document.getElementById("time-1").style.display = "none";
+    document.getElementById("time-2").style.display = "none";
+    document.getElementById("time-3").style.display = "none";
+}
+// 
 
 
 
