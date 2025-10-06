@@ -2,9 +2,9 @@ var debugText = document.getElementById("title").innerHTML;
 
 // === Variables for displaying time ===
 var clock = new Date();
-var getSeconds;
-var getMinutes;
-var getHours;
+var getSeconds = clock.getSeconds();
+var getMinutes = clock.getMinutes();
+var getHours = clock.getHours();
 
 var getYear;
 var getMonth;
@@ -25,9 +25,23 @@ if (myLang == "id") {
     document.getElementById("alarm-button").innerHTML = "Alarm";
 }
 
-document.getElementById("hours").innerHTML = clock.getHours();
-document.getElementById("minutes").innerHTML = clock.getMinutes();
-document.getElementById("seconds").innerHTML = clock.getSeconds();
+if (getSeconds < 10) {
+    document.getElementById("seconds").innerHTML = "0" + getSeconds;
+} else {
+    document.getElementById("seconds").innerHTML = getSeconds;
+}
+
+if (getMinutes < 10) {
+    document.getElementById("minutes").innerHTML = "0" + getMinutes;
+} else {
+    document.getElementById("minutes").innerHTML = getMinutes;
+}
+
+if (getHours < 10) {
+    document.getElementById("hours").innerHTML = "0" + getHours;
+} else {
+    document.getElementById("hours").innerHTML = getHours;
+}
 
 let myClock = setInterval(resetClock, 1000);
 let myDate = setInterval(resetDate, 1000);
@@ -235,8 +249,8 @@ function resetButtonVisibility() {
             getAlarmButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
-            exitStopwatchMode();
             enterTimerMode();
+            exitStopwatchMode();
             break;
 
         case "alarm":
@@ -248,8 +262,8 @@ function resetButtonVisibility() {
             getClockButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
-            exitStopwatchMode();
             enterAlarmMode();
+            exitStopwatchMode();
             break;
 
         case "stopwatch":
@@ -295,15 +309,19 @@ function toggleAlarmMode() {
 }
 
 function toggleStopwatchMode() {
-    
-    if (currentButton[0] == "stopwatch") {
 
+    enterStopwatchMode();
+    if (currentButton[0] == "stopwatch") {
+        addRecords();
     } else {
         stopwatch = setInterval(runStopwatch, 1000);
         currentButton.pop();
-        document.getElementById("hours").innerHTML = "";
-        document.getElementById("minutes").innerHTML = "";
-        document.getElementById("seconds").innerHTML = "";
+        document.getElementById("hours").innerHTML = "00";
+        document.getElementById("minutes").innerHTML = "00";
+        document.getElementById("seconds").innerHTML = "00";
+
+        document.getElementById("stopwatch-records").style.bottom = "0";
+        document.getElementById("stopwatch-records").style.opacity = "100%";
     }
     currentButton.push("stopwatch");
     resetButtonVisibility();
@@ -493,50 +511,94 @@ function enterAlarmMode() {
 
 // Stopwatch Mode
 var stopwatch = setInterval(runStopwatch, 1000);
-var stopwatchSecs = -1;
+var stopwatchSecs = 0;
 var stopwatchMins = 0;
 var stopwatchHours = 0;
+
+if (myLang == "id") {
+    document.getElementById("stopwatch-rec-desc").innerHTML = "Rekaman Stopwatch";
+} else {
+    document.getElementById("stopwatch-rec-desc").innerHTML = "Stopwatch Records";
+}
 
 clearInterval(stopwatch);
 
 function enterStopwatchMode() {
 
     if (myLang == "id") {
-        document.getElementById("stopwatch-button").innerHTML = "Jeda";
+        document.getElementById("stopwatch-button").innerHTML = "Simpan Rekaman";
     } else {
-        document.getElementById("stopwatch-button").innerHTML = "Pause";
+        document.getElementById("stopwatch-button").innerHTML = "Save Record";
     }
 
 }
 
 function runStopwatch() {
-    if (stopwatchSecs < 10) {
+    if (stopwatchSecs < 60) {
         stopwatchSecs += 1;
     } else {
-        stopwatchSecs = -1;
+        stopwatchSecs = 0;
         stopwatchMins += 1;
     }
 
-    document.getElementById("hours").innerHTML = stopwatchHours;
-    document.getElementById("minutes").innerHTML = stopwatchMins;
-    document.getElementById("seconds").innerHTML = stopwatchSecs;
-}
+    // Adds 0 if the time are less than 10
+    if (stopwatchSecs < 10) {
+        document.getElementById("seconds").innerHTML = "0" + stopwatchSecs;
+    } else {
+        document.getElementById("seconds").innerHTML = stopwatchSecs;
+    }
 
-function pauseStopwatch() {}
+    if (stopwatchMins < 10) {
+        document.getElementById("minutes").innerHTML = "0" + stopwatchMins;
+    } else {
+        document.getElementById("minutes").innerHTML = stopwatchMins;
+    }
+
+    if (stopwatchHours < 10) {
+        document.getElementById("hours").innerHTML = "0" + stopwatchHours;
+    } else {
+        document.getElementById("hours").innerHTML = stopwatchHours;
+    }
+
+    // Display blinking lights
+    if (getSeconds % 2 == 0) {
+        document.getElementById("clock-colon1").style.opacity = "100%";
+        document.getElementById("clock-colon2").style.opacity = "100%";
+    } else {
+        document.getElementById("clock-colon1").style.opacity = "0%";
+        document.getElementById("clock-colon2").style.opacity = "0%";
+    }
+
+    
+}
 
 function exitStopwatchMode() {
 
-    stopwatchSecs = -1;
+    stopwatchSecs = 0;
     stopwatchMins = 0;
     stopwatchHours = 0;
     clearInterval(stopwatch);
 
+    document.getElementById("stopwatch-records").style.bottom = "360px";
+    document.getElementById("stopwatch-records").style.opacity = "0%";
+
     if (myLang == "id") {
-        document.getElementById("stopwatch-button").innerHTML = "Stopwatch";
+        document.getElementById("del-records").innerHTML = "Hapus";
+        
     } else {
-        document.getElementById("stopwatch-button").innerHTML = "Stopwatch";
+        document.getElementById("del-records").innerHTML = "Delete";
     }
 
+    document.getElementById("stopwatch-button").innerHTML = "Stopwatch";
+
+}
+
+function addRecords() {
+    console.log("Records has been added");
+}
+
+function deleteRecords() {
+    console.log("Records has been deleted");
 }
 
 

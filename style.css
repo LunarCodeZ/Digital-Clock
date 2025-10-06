@@ -25,6 +25,7 @@ h1 {
     width: 490px;
     height: 320px;
     position: relative;
+    z-index: 1;
 }
 
 .clock-menus {
@@ -123,6 +124,69 @@ h1 {
 
 
 
+/* Stopwatch Records */
+#stopwatch-records {
+    margin: auto;
+    border-radius: 5%;
+    border: 5px solid rgb(0, 0, 0);
+    background-image: linear-gradient(to bottom right, rgb(45, 45, 45), black);
+    width: 490px;
+    padding: 10px 0 10px 0;
+    position: relative;
+    bottom: 360px;
+    opacity: 0%;
+    margin-top: 30px;
+    z-index: 0;
+    transition: 0.7s;
+}
+
+#stopwatch-rec-desc {
+    text-align: center;
+    color: white;
+    font-size: 28px;
+    margin-top: 10px;
+}
+
+.line {
+    border: 1px solid white;
+    position: relative;
+    bottom: 10px;
+    margin: auto;
+    width: 400px;
+    margin-bottom: 10px;
+}
+
+#records-list {
+    color: white;
+    margin: 10px;
+}
+
+table {
+    margin: auto;
+    text-align: center;
+}
+
+#del-records {
+    background-color: red;
+    margin: auto;
+    width: 200px;
+    border: 2px solid black;
+    border-radius: 10%;
+    color: white;
+    text-align: center;
+    padding: 10px 0 10px 0;
+    margin-top: 20px;
+    transition: 0.5s;
+}
+
+#del-records:hover {
+    background-color: rgb(255, 106, 0);
+    font-size: 20px;
+    padding: 10px;
+}
+
+
+
 
 
 /* Useless */
@@ -157,3 +221,7 @@ h1 {
     font-weight: bold;
     font-family: cursive;
 }
+
+/* .modes {
+    position: relative;
+} */

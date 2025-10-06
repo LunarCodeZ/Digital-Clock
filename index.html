@@ -56,13 +56,46 @@
         </div>
     </div>
 
-    <h3>Mode:</h3>
-    <ul>
-        <li class="completed">Clock</li>
-        <li class="completed">Timer</li>
-        <li class="completed">Alarm</li>
-        <li class="progress">Stopwatch</li>
-    </ul>
+    <div id="stopwatch-records">
+        <h2 id="stopwatch-rec-desc"></h2>
+        <div class="line"></div>
+        <div id="records-list">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th rowspan="2">#</th>
+                        <th colspan="4">Time</th>
+                    </tr>
+                    <tr>
+                        <th>Hours</th>
+                        <th>Minutes</th>
+                        <th>Seconds</th>
+                        <th>Milliseconds</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>00</td>
+                        <td>01</td>
+                        <td>05</td>
+                        <td>90</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="del-records" onclick="deleteRecords()"></div>
+    </div>
+
+    <div class="modes">
+        <h3>Mode:</h3>
+        <ul>
+            <li class="completed">Clock</li>
+            <li class="completed">Timer</li>
+            <li class="completed">Alarm</li>
+            <li class="progress">Stopwatch</li>
+        </ul>
+    </div>
 
     <!-- <audio src="audio/ringtone1.mp3" id="ringtone" controls></audio> -->
 
