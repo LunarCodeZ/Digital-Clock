@@ -31,8 +31,7 @@ document.getElementById("seconds").innerHTML = clock.getSeconds();
 
 let myClock = setInterval(resetClock, 1000);
 let myDate = setInterval(resetDate, 1000);
-// clearInterval(myClock);
-// clearInterval(myClock);
+// ===
 
 
 function resetClock() {
@@ -223,8 +222,8 @@ function resetButtonVisibility() {
             getAlarmButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
+            exitStopwatchMode();
             exitTimerMode();
-            enterClockMode();
             break;
 
         case "timer":
@@ -236,6 +235,7 @@ function resetButtonVisibility() {
             getAlarmButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
+            exitStopwatchMode();
             enterTimerMode();
             break;
 
@@ -248,6 +248,7 @@ function resetButtonVisibility() {
             getClockButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
+            exitStopwatchMode();
             enterAlarmMode();
             break;
 
@@ -261,7 +262,6 @@ function resetButtonVisibility() {
             getClockButton.backgroundColor = buttonInactive;
             getClockButton.border = buttonInactiveBorder;
             exitTimerMode();
-            enterStopwatchMode();
             break;
 
         default:
@@ -295,7 +295,16 @@ function toggleAlarmMode() {
 }
 
 function toggleStopwatchMode() {
-    currentButton.pop();
+    
+    if (currentButton[0] == "stopwatch") {
+
+    } else {
+        stopwatch = setInterval(runStopwatch, 1000);
+        currentButton.pop();
+        document.getElementById("hours").innerHTML = "";
+        document.getElementById("minutes").innerHTML = "";
+        document.getElementById("seconds").innerHTML = "";
+    }
     currentButton.push("stopwatch");
     resetButtonVisibility();
 }
@@ -316,6 +325,10 @@ function buttonHoverAnimation(buttonParam) {
                     break;
 
                 case "set alarm":
+                    document.getElementById(buttonParam).style.backgroundColor = "lime";
+                    break;
+
+                case "start stopwatch":
                     document.getElementById(buttonParam).style.backgroundColor = "lime";
                     break;
 
@@ -479,7 +492,52 @@ function enterAlarmMode() {
 
 
 // Stopwatch Mode
+var stopwatch = setInterval(runStopwatch, 1000);
+var stopwatchSecs = -1;
+var stopwatchMins = 0;
+var stopwatchHours = 0;
 
+clearInterval(stopwatch);
+
+function enterStopwatchMode() {
+
+    if (myLang == "id") {
+        document.getElementById("stopwatch-button").innerHTML = "Jeda";
+    } else {
+        document.getElementById("stopwatch-button").innerHTML = "Pause";
+    }
+
+}
+
+function runStopwatch() {
+    if (stopwatchSecs < 10) {
+        stopwatchSecs += 1;
+    } else {
+        stopwatchSecs = -1;
+        stopwatchMins += 1;
+    }
+
+    document.getElementById("hours").innerHTML = stopwatchHours;
+    document.getElementById("minutes").innerHTML = stopwatchMins;
+    document.getElementById("seconds").innerHTML = stopwatchSecs;
+}
+
+function pauseStopwatch() {}
+
+function exitStopwatchMode() {
+
+    stopwatchSecs = -1;
+    stopwatchMins = 0;
+    stopwatchHours = 0;
+    clearInterval(stopwatch);
+
+    if (myLang == "id") {
+        document.getElementById("stopwatch-button").innerHTML = "Stopwatch";
+    } else {
+        document.getElementById("stopwatch-button").innerHTML = "Stopwatch";
+    }
+
+}
 
 
 // Submit Form (Debug)
@@ -518,6 +576,7 @@ function debug() {
     console.log(currentButton);
 }
 
+// Checks if the button either alarm or timer
 function checkState() {
     if (currentState == "set timer" || currentState == "set alarm") {
         if (document.getElementById("time-3").value == "") {
@@ -625,27 +684,3 @@ function checkState() {
     }
 
 }
-
-// function countdownEnd() {
-
-//     if (currentButton[0] == "timer" || currentButton[0] == "alarm") {
-    
-//         setTimeout(function() {
-//             countdownEndStatus += 1;
-//             switch (countdownEndStatus) {
-//                 case 1:
-//                     document.getElementById("dates").style.backgroundColor = "red";
-//                     break;
-            
-//                 default:
-//                     document.getElementById("dates").style.backgroundColor = "cornsilk";
-//                     countdownEndStatus += 1;
-//                     break;
-//             }
-//             console.log(countdownEndStatus);
-//             countdownEnd();
-//         }, 500)
-
-//     }
-
-// }
