@@ -64,7 +64,7 @@
                 <thead>
                     <tr>
                         <th rowspan="2">#</th>
-                        <th colspan="4">Time</th>
+                        <th colspan="4" id="stopwatch-time">Time</th>
                     </tr>
                     <tr>
                         <th id="stopwatch-hours">Hours</th>
@@ -73,18 +73,14 @@
                         <th id="stopwatch-milliseconds">Milliseconds</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>00</td>
-                        <td>01</td>
-                        <td>05</td>
-                        <td>90</td>
-                    </tr>
+                <tbody id="add-stopwatch-rec">
                 </tbody>
             </table>
         </div>
-        <div id="del-records" onclick="deleteRecords()">Delete Records</div>
+        <div id="del-records-button">
+            <div id="del-records" onclick="deleteRecords()">Delete New Record</div>
+            <div id="del-records-all" onclick="deleteAllRecords()">Delete All Records</div>
+        </div>
     </div>
 
     <div class="modes">

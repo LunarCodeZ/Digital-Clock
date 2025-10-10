@@ -166,23 +166,38 @@ table {
     text-align: center;
 }
 
-#del-records {
-    background-color: red;
+#del-records-button {
     margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#del-records-button > div {
     width: 200px;
     border: 2px solid black;
     border-radius: 10%;
-    color: white;
     text-align: center;
     padding: 10px 0 10px 0;
     margin-top: 20px;
     transition: 0.5s;
 }
 
-#del-records:hover {
-    background-color: rgb(255, 106, 0);
+#del-records {
+    background-color: orange;
+    color: black;
+}
+
+#del-records-all {
+    background-color: red;
+    color: white;
+}
+
+#del-records-button > div:hover {
+    background-color: rgb(7, 151, 234);
     font-size: 20px;
     padding: 10px;
+    color: black;
 }
 
 

@@ -223,7 +223,11 @@ function resetButtonVisibility() {
         myDate = clearInterval(myDate);
 
     } else if (currentButton[0] == "stopwatch") {
-        document.getElementById("dates").innerHTML = "Stopwatch mode";
+        if (myLang == "id") {
+            document.getElementById("dates").innerHTML = "Mode Stopwatch";
+        } else {
+            document.getElementById("dates").innerHTML = "Stopwatch Mode";
+        }
     } else {
         hideInput();
         resetDate();
@@ -549,6 +553,40 @@ var stopwatchSecs = 0;
 var stopwatchMins = 0;
 var stopwatchHours = 0;
 
+var stopwatchMillisecsRec;
+var stopwatchSecsRec;
+var stopwatchMinsRec;
+var stopwatchHoursRec;
+
+var stopwatchCurrentRec = 0;
+
+var stopwatchRecords = {
+    "attemps": {
+        "attemp1": {
+            "stopwatch-rec-hours": "00",
+            "stopwatch-rec-mins": "00",
+            "stopwatch-rec-secs": "00"
+        },
+        "attemp2": {
+            "stopwatch-rec-hours": "00",
+            "stopwatch-rec-mins": "00",
+            "stopwatch-rec-secs": "00"
+        }
+    }
+}
+
+
+
+// Translate STopwatch records to Indonesian
+if (myLang == "id") {
+    document.getElementById("stopwatch-time").innerHTML = "Waktu";
+
+    document.getElementById("stopwatch-hours").innerHTML = "Jam";
+    document.getElementById("stopwatch-minutes").innerHTML = "Menit";
+    document.getElementById("stopwatch-seconds").innerHTML = "Detik";
+    document.getElementById("stopwatch-milliseconds").innerHTML = "Milidetik";
+}
+
 if (myLang == "id") {
     document.getElementById("stopwatch-rec-desc").innerHTML = "Rekaman Stopwatch";
 } else {
@@ -570,7 +608,7 @@ function enterStopwatchMode() {
 }
 
 function runStopwatch() {
-    if (stopwatchSecs < 60) {
+    if (stopwatchSecs < 59) {
         stopwatchSecs += 1;
     } else {
         stopwatchSecs = 0;
@@ -630,11 +668,34 @@ function exitStopwatchMode() {
 }
 
 function addRecords() {
-    console.log("Records has been added");
+    stopwatchCurrentRec++;
+    stopwatchHoursRec = stopwatchHours;
+    stopwatchMinsRec = stopwatchMins;
+    stopwatchSecsRec = stopwatchSecs;
+    stopwatchMillisecsRec = 0;
+
+    if (stopwatchHoursRec < 10) {
+        stopwatchHoursRec = "0" + stopwatchHoursRec;
+    }
+    if (stopwatchMinsRec < 10) {
+        stopwatchMinsRec = "0" + stopwatchMinsRec;
+    }
+    if (stopwatchSecsRec < 10) {
+        stopwatchSecsRec = "0" + stopwatchSecsRec;
+    }
+    // if (stopwatchMillisecsRec < 10) {}
+
+    document.getElementById("add-stopwatch-rec").innerHTML += "<tr><td>" + stopwatchCurrentRec + "</td><td>"+ stopwatchHoursRec + "</td><td>" + stopwatchMinsRec + "</td><td>"+ stopwatchSecsRec + "</td><td>" + stopwatchMillisecsRec + "</td></tr>";
+    // console.log(stopwatchHoursRec);
+    // console.log(stopwatchMinsRec);
+    // console.log(stopwatchSecsRec);
+    // console.log(stopwatchCurrentRec);
+    // console.log("Records has been added");
 }
 
 function deleteRecords() {
     console.log("Records has been deleted");
+    document.getElementById("add-stopwatch-rec").innerHTML -= "<tr><td>" + stopwatchCurrentRec + "</td><td>"+ stopwatchHoursRec + "</td><td>" + stopwatchMinsRec + "</td><td>"+ (stopwatchSecsRec - 1) + "</td><td>" + stopwatchMillisecsRec + "</td></tr>";
 }
 
 
