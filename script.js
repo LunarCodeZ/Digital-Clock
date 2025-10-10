@@ -23,6 +23,7 @@ if (myLang == "id") {
     document.getElementById("clock-button").innerHTML = "Jam";
     document.getElementById("timer-button").innerHTML = "Pengatur Waktu";
     document.getElementById("alarm-button").innerHTML = "Alarm";
+    document.getElementById("del-records").innerHTML = "Hapus Riwayat";
 }
 
 if (getSeconds < 10) {
@@ -218,9 +219,11 @@ function resetButtonVisibility() {
                 document.getElementById("minutes").innerHTML = "";
                 document.getElementById("seconds").innerHTML = "";
                 break;
-        }
+            }
         myDate = clearInterval(myDate);
 
+    } else if (currentButton[0] == "stopwatch") {
+        document.getElementById("dates").innerHTML = "Stopwatch mode";
     } else {
         hideInput();
         resetDate();
@@ -282,47 +285,70 @@ resetButtonVisibility();
 // Change Button Visibility on Click
 
 function toggleClockMode() {
+    exitStopwatchMode();
+    exitTimerMode();
     currentButton.pop();
     currentButton.push("clock");
     resetButtonVisibility();
-    exitStopwatchMode();
-    exitTimerMode();
 }
 
 function toggleTimerMode() {
     currentButton.pop();
     currentButton.push("timer");
-    checkState();
-    resetButtonVisibility();
-    exitStopwatchMode();
+    if (currentState == "set timer") {
+        checkState();
+    } else {
+        exitStopwatchMode();
+        exitTimerMode();
+        currentState = "set timer";
+        if (myLang == "id") {
+            document.getElementById("dates").innerHTML = "Masukkan waktu: ";
+        } else {
+            document.getElementById("dates").innerHTML = "Enter the time: ";
+        }
+    }
     enterTimerMode();
+    resetButtonVisibility();
 }
 
 function toggleAlarmMode() {
     currentButton.pop();
     currentButton.push("alarm");
-    checkState();
-    resetButtonVisibility();
-    exitStopwatchMode();
+    if (currentState == "set alarm") {
+        checkState();
+    } else {
+        exitStopwatchMode();
+        exitTimerMode();
+        currentState = "set alarm";
+        if (myLang == "id") {
+            document.getElementById("dates").innerHTML = "Masukkan waktu: ";
+        } else {
+            document.getElementById("dates").innerHTML = "Enter the time: ";
+        }
+    }
     enterAlarmMode();
+    resetButtonVisibility();
 }
 
 function toggleStopwatchMode() {
-    exitTimerMode();
-    
+
     if (currentButton[0] == "stopwatch") {
         addRecords();
     } else {
         stopwatch = setInterval(runStopwatch, 1000);
         currentButton.pop();
+        currentButton.push("stopwatch");
         document.getElementById("hours").innerHTML = "00";
         document.getElementById("minutes").innerHTML = "00";
         document.getElementById("seconds").innerHTML = "00";
 
         document.getElementById("stopwatch-records").style.bottom = "0";
         document.getElementById("stopwatch-records").style.opacity = "100%";
+
+        enterStopwatchMode();
+        exitTimerMode();
+        clearInterval(myDate);
     }
-    currentButton.push("stopwatch");
     resetButtonVisibility();
 }
 
@@ -335,6 +361,8 @@ function buttonHoverAnimation(buttonParam) {
     if (buttonParam == currentButton[0] + "-btn") {
         if (currentButton[0] == "clock") {
             document.getElementById(buttonParam).style.backgroundColor = "orange";
+        } else if (currentButton[0] == "stopwatch") {
+            document.getElementById(buttonParam).style.backgroundColor = "lime";
         } else {
             switch (currentState) {
                 case "set timer":
@@ -345,7 +373,7 @@ function buttonHoverAnimation(buttonParam) {
                     document.getElementById(buttonParam).style.backgroundColor = "lime";
                     break;
 
-                case "start stopwatch":
+                case "stopwatch":
                     document.getElementById(buttonParam).style.backgroundColor = "lime";
                     break;
 
@@ -402,6 +430,13 @@ function exitTimerMode() {
         document.getElementById("timer-button").innerHTML = "Timer Mode";
         document.getElementById("alarm-button").innerHTML = "Alarm Mode";
     }
+
+    document.getElementById("time-3").style.color = "white";
+    document.getElementById("time-3").style.border = "2px solid rgb(63, 63, 63)";
+    document.getElementById("time-2").style.color = "white";
+    document.getElementById("time-2").style.border = "2px solid rgb(63, 63, 63)";
+    document.getElementById("time-1").style.color = "white";
+    document.getElementById("time-1").style.border = "2px solid rgb(63, 63, 63)";
 
     document.getElementById("dates").style.backgroundColor = "cornsilk";
 
@@ -524,6 +559,8 @@ clearInterval(stopwatch);
 
 function enterStopwatchMode() {
 
+    currentState = "stopwatch";
+
     if (myLang == "id") {
         document.getElementById("stopwatch-button").innerHTML = "Simpan Rekaman";
     } else {
@@ -538,6 +575,11 @@ function runStopwatch() {
     } else {
         stopwatchSecs = 0;
         stopwatchMins += 1;
+    }
+
+    if (stopwatchMins == 60) {
+        stopwatchMins = 0;
+        stopwatchHours += 1;
     }
 
     // Adds 0 if the time are less than 10
@@ -573,6 +615,8 @@ function runStopwatch() {
 
 function exitStopwatchMode() {
 
+    currentState = "";
+
     stopwatchSecs = 0;
     stopwatchMins = 0;
     stopwatchHours = 0;
@@ -580,13 +624,6 @@ function exitStopwatchMode() {
 
     document.getElementById("stopwatch-records").style.bottom = "360px";
     document.getElementById("stopwatch-records").style.opacity = "0%";
-
-    if (myLang == "id") {
-        document.getElementById("del-records").innerHTML = "Hapus";
-        
-    } else {
-        document.getElementById("del-records").innerHTML = "Delete";
-    }
 
     document.getElementById("stopwatch-button").innerHTML = "Stopwatch";
 
@@ -727,20 +764,6 @@ function checkState() {
                 getCountdownHours = 0;
             }
             startCountdown(getCountdownHours, getCountdownMins, getCountdownSecs);
-        }
-    } else if (currentState == "start timer") {
-
-    } else {
-        if (currentButton[0] == "timer") {
-            currentState = "set timer";
-        } else if (currentButton[0] == "alarm") {
-            currentState = "set alarm";
-        }
-
-        if (myLang == "id") {
-            document.getElementById("dates").innerHTML = "Masukkan waktu: ";
-        } else {
-            document.getElementById("dates").innerHTML = "Enter the time: ";
         }
     }
 
