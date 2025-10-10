@@ -213,6 +213,10 @@ table {
     color: yellow;
 }
 
+.hide {
+    display: none;
+}
+
 .input {
     margin: auto;
     display: flex;
@@ -236,7 +240,3 @@ table {
     font-weight: bold;
     font-family: cursive;
 }
-
-/* .modes {
-    position: relative;
-} */
