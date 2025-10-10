@@ -222,8 +222,6 @@ function resetButtonVisibility() {
             getAlarmButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
-            exitStopwatchMode();
-            exitTimerMode();
             break;
 
         case "timer":
@@ -235,8 +233,6 @@ function resetButtonVisibility() {
             getAlarmButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
-            exitStopwatchMode();
-            enterTimerMode();
             break;
 
         case "alarm":
@@ -248,8 +244,6 @@ function resetButtonVisibility() {
             getClockButton.border = buttonInactiveBorder;
             getStopwatchButton.backgroundColor = buttonInactive;
             getStopwatchButton.border = buttonInactiveBorder;
-            exitStopwatchMode();
-            enterAlarmMode();
             break;
 
         case "stopwatch":
@@ -261,7 +255,6 @@ function resetButtonVisibility() {
             getTimerButton.border = buttonInactiveBorder;
             getClockButton.backgroundColor = buttonInactive;
             getClockButton.border = buttonInactiveBorder;
-            exitTimerMode();
             break;
 
         default:
@@ -278,6 +271,8 @@ function toggleClockMode() {
     currentButton.pop();
     currentButton.push("clock");
     resetButtonVisibility();
+    exitStopwatchMode();
+    exitTimerMode();
 }
 
 function toggleTimerMode() {
@@ -285,6 +280,8 @@ function toggleTimerMode() {
     currentButton.push("timer");
     checkState();
     resetButtonVisibility();
+    exitStopwatchMode();
+    enterTimerMode();
 }
 
 function toggleAlarmMode() {
@@ -292,9 +289,12 @@ function toggleAlarmMode() {
     currentButton.push("alarm");
     checkState();
     resetButtonVisibility();
+    exitStopwatchMode();
+    enterAlarmMode();
 }
 
 function toggleStopwatchMode() {
+    exitTimerMode();
     
     if (currentButton[0] == "stopwatch") {
 
@@ -317,7 +317,7 @@ function toggleStopwatchMode() {
 function buttonHoverAnimation(buttonParam) {
     if (buttonParam == currentButton[0] + "-btn") {
         if (currentButton[0] == "clock") {
-            document.getElementById(buttonParam).style.backgroundColor = "red";
+            document.getElementById(buttonParam).style.backgroundColor = "orange";
         } else {
             switch (currentState) {
                 case "set timer":
@@ -510,10 +510,10 @@ function enterStopwatchMode() {
 }
 
 function runStopwatch() {
-    if (stopwatchSecs < 10) {
+    if (stopwatchSecs < 60) {
         stopwatchSecs += 1;
     } else {
-        stopwatchSecs = -1;
+        stopwatchSecs = 0;
         stopwatchMins += 1;
     }
 
